@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotless Route Detailing — Mobile Auto Detailing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#050505;
+  --blue:#007BFF;
+  --navy:#001B3D;
+  --white:#FFFFFF;
+  --charcoal:#1A1A1A;
+  --steel:#6D737A;
+  --ice:#58B7FF;
+  --silver:#C9CED6;
+  --blue-dark:#0052B3;
+  --blue-glow:rgba(0,123,255,0.35);
+  --blue-subtle:rgba(0,123,255,0.08);
+  --font-display:'Barlow Condensed',sans-serif;
+  --font-body:'Rajdhani',sans-serif;
+  --font-fine:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,5,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,123,255,0.2)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:var(--font-display);font-weight:900;font-size:1.4rem;letter-spacing:0.05em;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-logo span{color:var(--blue)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--silver);text-decoration:none;font-family:var(--font-body);font-weight:600;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;padding:4px 0;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-links a.active{color:var(--white);border-bottom-color:var(--blue)}
+.nav-book{background:var(--blue);color:var(--white)!important;padding:8px 20px!important;border-radius:4px;border-bottom:none!important}
+.nav-book:hover{background:var(--ice)!important;color:var(--black)!important}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:all 0.3s}
+
+/* PAGE SYSTEM */
+.page{display:none;min-height:100vh;padding-top:64px}
+.page.active{display:block}
+
+/* HERO */
+.hero{position:relative;min-height:calc(100vh - 64px);display:flex;align-items:center;overflow:hidden;background:var(--black)}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#050505 0%,#001B3D 40%,#050505 100%);z-index:0}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,123,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,123,255,0.06) 1px,transparent 1px);background-size:60px 60px;z-index:1}
+.hero-glow{position:absolute;top:20%;left:35%;width:600px;height:600px;background:radial-gradient(circle,rgba(0,123,255,0.15) 0%,transparent 70%);z-index:1;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-text{}
+.hero-eyebrow{display:inline-block;font-family:var(--font-display);font-size:0.85rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--blue);border:1px solid rgba(0,123,255,0.4);padding:4px 14px;margin-bottom:1.5rem}
+.hero-title{font-family:var(--font-display);font-weight:900;font-size:clamp(3.5rem,6vw,6rem);line-height:0.9;letter-spacing:-0.01em;text-transform:uppercase;margin-bottom:0.5rem}
+.hero-title .outline{-webkit-text-stroke:2px var(--white);color:transparent}
+.hero-title .blue{color:var(--blue)}
+.hero-sub{font-family:var(--font-display);font-weight:600;font-size:1.1rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--silver);margin-bottom:1rem}
+.hero-county{font-family:var(--font-display);font-size:1rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ice);margin-bottom:2rem}
+.hero-tagline{font-family:var(--font-fine);font-size:1.15rem;color:var(--silver);margin-bottom:2.5rem;font-weight:300;line-height:1.6}
+.hero-tagline strong{color:var(--white);font-weight:500}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.btn-primary{background:var(--blue);color:var(--white);padding:14px 32px;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:all 0.2s}
+.btn-primary:hover{background:var(--ice);color:var(--black)}
+.btn-outline{background:transparent;color:var(--white);padding:14px 32px;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.3);cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:all 0.2s}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.hero-note{font-family:var(--font-fine);font-size:0.78rem;color:var(--steel);line-height:1.5}
+.hero-note a{color:var(--blue);text-decoration:none}
+.hero-visual{display:flex;flex-direction:column;gap:1rem}
+.hero-card-big{background:linear-gradient(135deg,rgba(0,27,61,0.8),rgba(0,123,255,0.1));border:1px solid rgba(0,123,255,0.3);padding:2.5rem;position:relative;overflow:hidden}
+.hero-card-big::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--ice))}
+.service-badges{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.badge{background:rgba(0,27,61,0.6);border:1px solid rgba(0,123,255,0.2);padding:1rem;display:flex;flex-direction:column;gap:4px}
+.badge-icon{font-size:1.4rem;margin-bottom:4px}
+.badge-title{font-family:var(--font-display);font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--white)}
+.badge-sub{font-family:var(--font-fine);font-size:0.72rem;color:var(--steel)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,123,255,0.15)}
+.stat{background:rgba(5,5,5,0.9);padding:1rem;text-align:center}
+.stat-num{font-family:var(--font-display);font-weight:900;font-size:1.8rem;color:var(--blue)}
+.stat-label{font-family:var(--font-fine);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--steel)}
+
+/* SECTION */
+.section{padding:5rem 2rem}
+.section-inner{max-width:1280px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:3.5rem}
+.section-eyebrow{display:inline-block;font-family:var(--font-display);font-size:0.8rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.section-title{font-family:var(--font-display);font-weight:900;font-size:clamp(2.5rem,4vw,3.5rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:0.95}
+.section-title .blue{color:var(--blue)}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;background:rgba(0,123,255,0.12)}
+.service-card{background:var(--charcoal);padding:2.5rem;position:relative;overflow:hidden;transition:all 0.3s;cursor:pointer}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.service-card:hover{background:#222}
+.service-card:hover::before{transform:scaleX(1)}
+.service-card.featured{background:linear-gradient(135deg,#001B3D,#0a1a3d)}
+.service-card.featured::before{transform:scaleX(1)}
+.featured-badge{display:inline-block;background:var(--blue);color:var(--white);font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;margin-bottom:1rem}
+.service-name{font-family:var(--font-display);font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.5rem}
+.service-price{font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--blue);letter-spacing:0.1em;margin-bottom:1.5rem}
+.service-includes{list-style:none;margin-bottom:2rem}
+.service-includes li{padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);font-family:var(--font-fine);font-size:0.9rem;color:var(--silver);display:flex;gap:10px;align-items:flex-start}
+.service-includes li::before{content:'';width:6px;height:6px;background:var(--blue);flex-shrink:0;margin-top:6px}
+.btn-service{width:100%;background:transparent;border:1px solid var(--blue);color:var(--blue);padding:12px;font-family:var(--font-display);font-weight:700;font-size:0.9rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-service:hover{background:var(--blue);color:var(--white)}
+
+/* BOOKING */
+.booking-section{background:var(--charcoal)}
+.booking-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:start}
+.booking-info{}
+.booking-notice{background:linear-gradient(135deg,rgba(0,27,61,0.8),rgba(0,123,255,0.08));border:1px solid rgba(0,123,255,0.3);padding:1.5rem;margin-bottom:2rem;position:relative}
+.booking-notice::before{content:'!';position:absolute;top:-12px;left:20px;background:var(--blue);color:var(--white);width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;font-size:0.85rem}
+.booking-notice p{font-family:var(--font-fine);font-size:0.88rem;color:var(--silver);line-height:1.6}
+.booking-notice a{color:var(--blue);text-decoration:none}
+.booking-detail{margin-bottom:1.5rem}
+.booking-detail-label{font-family:var(--font-display);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--steel);margin-bottom:4px}
+.booking-detail-val{font-family:var(--font-body);font-weight:600;color:var(--white)}
+.booking-form{}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group.full{grid-column:1/-1}
+label{display:block;font-family:var(--font-display);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--steel);margin-bottom:6px}
+input,select,textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:var(--white);padding:12px 14px;font-family:var(--font-body);font-size:0.95rem;outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none;border-radius:0}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+select option{background:var(--charcoal);color:var(--white)}
+textarea{resize:vertical;min-height:100px}
+.btn-submit{width:100%;background:var(--blue);color:var(--white);border:none;padding:16px;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn-submit:hover{background:var(--ice);color:var(--black)}
+
+/* CHECKOUT */
+.checkout-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:4rem;align-items:start}
+.review-card{background:var(--charcoal);border:1px solid rgba(0,123,255,0.2);padding:2rem}
+.review-card h3{font-family:var(--font-display);font-weight:900;font-size:1.4rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.review-row{display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.review-label{font-family:var(--font-fine);font-size:0.85rem;color:var(--steel)}
+.review-val{font-family:var(--font-body);font-weight:600;color:var(--white);text-align:right}
+.review-total{display:flex;justify-content:space-between;padding:1rem 0;margin-top:0.5rem}
+.review-total-label{font-family:var(--font-display);font-weight:700;font-size:1rem;text-transform:uppercase;color:var(--white)}
+.review-total-price{font-family:var(--font-display);font-weight:900;font-size:1.5rem;color:var(--blue)}
+.payment-options{background:var(--charcoal);border:1px solid rgba(0,123,255,0.2);padding:2rem}
+.payment-options h3{font-family:var(--font-display);font-weight:900;font-size:1.2rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1.5rem}
+.payment-opt{display:flex;align-items:flex-start;gap:12px;padding:1rem;border:1px solid rgba(255,255,255,0.1);margin-bottom:0.75rem;cursor:pointer;transition:all 0.2s}
+.payment-opt:hover,.payment-opt.selected{border-color:var(--blue);background:rgba(0,123,255,0.06)}
+.payment-opt input[type=radio]{width:auto;margin-top:3px;accent-color:var(--blue)}
+.payment-opt-info{}
+.payment-opt-title{font-family:var(--font-body);font-weight:700;font-size:0.95rem;margin-bottom:2px}
+.payment-opt-desc{font-family:var(--font-fine);font-size:0.8rem;color:var(--steel)}
+.confirm-msg{background:linear-gradient(135deg,rgba(0,27,61,0.8),rgba(0,123,255,0.1));border:1px solid rgba(0,123,255,0.4);padding:1.5rem;margin-top:1.5rem;font-family:var(--font-fine);font-size:0.88rem;color:var(--silver);line-height:1.6}
+
+/* BEFORE/AFTER */
+.ba-intro{max-width:700px;margin:0 auto 3rem;text-align:center;font-family:var(--font-fine);color:var(--silver);line-height:1.7}
+.ba-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;background:rgba(0,123,255,0.1)}
+.ba-card{background:var(--charcoal);overflow:hidden}
+.ba-slider{position:relative;height:220px;overflow:hidden;cursor:ew-resize;user-select:none}
+.ba-before,.ba-after{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;font-size:1.5rem;letter-spacing:0.1em}
+.ba-before{background:linear-gradient(135deg,#2a1a0a,#3d2a12);color:rgba(255,255,255,0.4);text-transform:uppercase}
+.ba-after{background:linear-gradient(135deg,#001B3D,#003580);color:rgba(255,255,255,0.85);text-transform:uppercase;clip-path:inset(0 50% 0 0)}
+.ba-divider{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--blue);transform:translateX(-50%);z-index:2;pointer-events:none}
+.ba-divider::before{content:'◄ ►';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--blue);color:var(--white);padding:4px 6px;font-size:0.6rem;white-space:nowrap}
+.ba-info{padding:1rem 1.25rem}
+.ba-category{font-family:var(--font-display);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.ba-caption{font-family:var(--font-body);font-weight:600;color:var(--silver);font-size:0.9rem}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center}
+.about-visual{position:relative}
+.about-img-frame{background:linear-gradient(135deg,rgba(0,27,61,0.9),rgba(0,123,255,0.15));border:1px solid rgba(0,123,255,0.3);aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.about-img-frame::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--ice))}
+.about-placeholder{font-family:var(--font-display);font-weight:900;font-size:5rem;color:rgba(0,123,255,0.2);text-transform:uppercase;letter-spacing:-0.05em}
+.about-accent{position:absolute;bottom:-1rem;right:-1rem;background:var(--blue);padding:1.5rem;font-family:var(--font-display);font-weight:900;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;text-align:center;line-height:1.4}
+.about-text{}
+.about-name{font-family:var(--font-display);font-weight:900;font-size:clamp(2.5rem,4vw,4rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:1;margin-bottom:0.5rem}
+.about-name span{color:var(--blue)}
+.about-role{font-family:var(--font-display);font-size:1rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--steel);margin-bottom:2rem}
+.about-bio{font-family:var(--font-fine);color:var(--silver);line-height:1.8;margin-bottom:1.5rem}
+.about-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,123,255,0.15);margin-top:2rem}
+.pillar{background:var(--charcoal);padding:1.25rem;text-align:center}
+.pillar-word{font-family:var(--font-display);font-weight:900;font-size:1rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue)}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:4rem;align-items:start}
+.contact-info{}
+.contact-item{margin-bottom:2rem}
+.contact-item-label{font-family:var(--font-display);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--steel);margin-bottom:6px}
+.contact-item-val{font-family:var(--font-body);font-weight:600;font-size:1.1rem;color:var(--white)}
+.contact-item-val a{color:var(--blue);text-decoration:none}
+.service-area{background:linear-gradient(135deg,rgba(0,27,61,0.6),rgba(0,123,255,0.08));border:1px solid rgba(0,123,255,0.2);padding:1.5rem;margin-top:2rem}
+.service-area h4{font-family:var(--font-display);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;color:var(--white)}
+.service-area p{font-family:var(--font-fine);font-size:0.85rem;color:var(--silver);line-height:1.6}
+
+/* FOOTER */
+footer{background:var(--navy);border-top:1px solid rgba(0,123,255,0.2);padding:3rem 2rem}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem}
+.footer-brand .brand-name{font-family:var(--font-display);font-weight:900;font-size:1.5rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.footer-brand .brand-sub{font-family:var(--font-display);font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.footer-brand .brand-area{font-family:var(--font-fine);font-size:0.82rem;color:var(--steel);margin-bottom:0.5rem}
+.footer-brand .brand-email a{color:var(--blue);text-decoration:none;font-size:0.85rem}
+.footer-col h5{font-family:var(--font-display);font-weight:700;font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--steel);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:0.5rem}
+.footer-col ul li a{color:var(--silver);text-decoration:none;font-family:var(--font-fine);font-size:0.85rem;transition:color 0.2s;cursor:pointer}
+.footer-col ul li a:hover{color:var(--blue)}
+.footer-bottom{max-width:1280px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center}
+.footer-tagline{font-family:var(--font-display);font-weight:700;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--steel)}
+.footer-tagline span{color:var(--blue)}
+.footer-copy{font-family:var(--font-fine);font-size:0.75rem;color:var(--steel)}
+
+/* LICENSED BAR */
+.licensed-bar{background:linear-gradient(90deg,rgba(0,27,61,0.9),rgba(0,123,255,0.1),rgba(0,27,61,0.9));border-top:1px solid rgba(0,123,255,0.2);border-bottom:1px solid rgba(0,123,255,0.2);padding:0.75rem 2rem}
+.licensed-inner{max-width:1280px;margin:0 auto;display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.lic-item{font-family:var(--font-display);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:8px}
+.lic-dot{width:6px;height:6px;background:var(--blue);flex-shrink:0}
+
+
+.hero-image{min-height:unset;display:block;padding:0}
+.hero-img-wrap{position:relative;width:100%;line-height:0}
+.hero-img{width:100%;display:block;max-height:80vh;object-fit:cover;object-position:center top}
+.hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(5,5,5,0.7) 100%)}
+.hero-cta-bar{background:linear-gradient(90deg,rgba(0,27,61,0.97),rgba(5,5,5,0.97));border-top:2px solid var(--blue);padding:1.5rem 2rem}
+.hero-cta-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.hero-cta-left{flex:1;min-width:260px}
+@media(max-width:900px){.hero-cta-inner{flex-direction:column;align-items:flex-start}.hero-img{max-height:55vw}}
+
+/* MOBILE */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:2rem}
+  .hero-visual{display:none}
+  .booking-grid,.checkout-grid,.about-grid,.contact-grid,.footer-inner{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .footer-inner{gap:2rem}
+  .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(5,5,5,0.98);padding:1rem 2rem;gap:0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .nav-hamburger{display:flex}
+  .hero-title{font-size:3rem}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;animation:fadeUp 0.6s forwards}
+.fade-in:nth-child(1){animation-delay:0.1s}
+.fade-in:nth-child(2){animation-delay:0.2s}
+.fade-in:nth-child(3){animation-delay:0.3s}
+.fade-in:nth-child(4){animation-delay:0.4s}
+.fade-in:nth-child(5){animation-delay:0.5s}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="showPage('home')"><span>Spotless</span> Route</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+      <li><a onclick="showPage('home');scrollTo('#services')" id="nav-services">Services</a></li>
+      <li><a onclick="showPage('booking')" id="nav-booking" class="nav-book">Book Now</a></li>
+      <li><a onclick="showPage('before-after')" id="nav-ba">Before &amp; After</a></li>
+      <li><a onclick="showPage('about')" id="nav-about">About Canyon</a></li>
+      <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+    </ul>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <section class="hero hero-image">
+    <div class="hero-img-wrap">
+      <img src="header.jpeg" alt="Spotless Route Detailing — Mobile Auto Detailing serving St. Charles County" class="hero-img">
+      <div class="hero-img-overlay"></div>
+    </div>
+    <div class="hero-cta-bar">
+      <div class="hero-cta-inner">
+        <div class="hero-cta-left">
+          <p class="hero-note" style="margin-bottom:0.75rem">Serving St. Charles County. Live outside? <a href="mailto:spotless.route.detailing@gmail.com">Contact Canyon before booking</a>.</p>
+          <p style="font-family:var(--font-display);font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--white)">Cleaner. Shinier. <span style="color:var(--blue)">Better.</span> Inside and Out.</p>
+        </div>
+        <div class="hero-btns" style="margin-bottom:0">
+          <button class="btn-primary" onclick="showPage('booking')">Book Today</button>
+          <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">View Services</button>
+          <button class="btn-outline" onclick="showPage('contact')">Contact Canyon</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="licensed-bar">
+    <div class="licensed-inner">
+      <div class="lic-item"><div class="lic-dot"></div>Licensed &amp; Insured</div>
+      <div class="lic-item"><div class="lic-dot"></div>Reliable</div>
+      <div class="lic-item"><div class="lic-dot"></div>Professional</div>
+      <div class="lic-item"><div class="lic-dot"></div>Local</div>
+      <div class="lic-item"><div class="lic-dot"></div>Satisfaction Guaranteed</div>
+    </div>
+  </div>
+
+  <section class="section" id="services">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">What We Offer</div>
+        <h2 class="section-title">Services <span class="blue">We Offer</span></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-name">Interior Detail</div>
+          <div class="service-price">Starting at $80</div>
+          <ul class="service-includes">
+            <li>Thorough vacuuming</li>
+            <li>Wipe-down of all surfaces</li>
+            <li>Dashboard and console cleaning</li>
+            <li>Door panels and trim cleaned</li>
+            <li>Windows cleaned</li>
+          </ul>
+          <button class="btn-service" onclick="bookService('Interior Detail','$80')">Book Interior Detail</button>
+        </div>
+        <div class="service-card featured">
+          <div class="featured-badge">Most Complete</div>
+          <div class="service-name">Full Detail</div>
+          <div class="service-price">Starting at $120</div>
+          <ul class="service-includes">
+            <li>Full interior detail included</li>
+            <li>Full exterior detail included</li>
+            <li>Complete vehicle refresh</li>
+            <li>Great for vehicles needing the full treatment</li>
+          </ul>
+          <button class="btn-service" onclick="bookService('Full Detail','$120')">Book Full Detail</button>
+        </div>
+        <div class="service-card">
+          <div class="service-name">Exterior Detail</div>
+          <div class="service-price">Starting at $80</div>
+          <ul class="service-includes">
+            <li>Hand wash and dry</li>
+            <li>Wax for shine and protection</li>
+            <li>Tire shine and wheel cleaning</li>
+            <li>Exterior trim cleaned</li>
+            <li>Windows cleaned</li>
+          </ul>
+          <button class="btn-service" onclick="bookService('Exterior Detail','$80')">Book Exterior Detail</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- BOOKING PAGE -->
+<div class="page" id="page-booking">
+  <section class="section booking-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Schedule Your Service</div>
+        <h2 class="section-title">Book Your <span class="blue">Detail</span></h2>
+      </div>
+      <div class="booking-grid">
+        <div class="booking-info">
+          <div class="booking-notice">
+            <p>Spotless Route Detailing proudly serves <strong>St. Charles County</strong>. If you live outside of St. Charles County, please contact Canyon before booking to confirm availability and travel options.</p>
+            <p style="margin-top:0.75rem">Contact: <a href="mailto:spotless.route.detailing@gmail.com">spotless.route.detailing@gmail.com</a></p>
+          </div>
+          <div class="booking-detail">
+            <div class="booking-detail-label">Service Area</div>
+            <div class="booking-detail-val">St. Charles County &amp; Surrounding Areas</div>
+          </div>
+          <div class="booking-detail">
+            <div class="booking-detail-label">Service Type</div>
+            <div class="booking-detail-val">Mobile — We Come To You</div>
+          </div>
+          <div class="booking-detail">
+            <div class="booking-detail-label">Availability</div>
+            <div class="booking-detail-val">Contact Canyon to confirm</div>
+          </div>
+          <div class="booking-detail">
+            <div class="booking-detail-label">Email</div>
+            <div class="booking-detail-val"><a href="mailto:spotless.route.detailing@gmail.com" style="color:var(--blue);text-decoration:none">spotless.route.detailing@gmail.com</a></div>
+          </div>
+          <div style="margin-top:2rem">
+            <div style="font-family:var(--font-display);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;color:var(--silver)">Services &amp; Starting Prices</div>
+            <div onclick="setService('Interior Detail')" style="padding:1rem;border:1px solid rgba(255,255,255,0.08);cursor:pointer;margin-bottom:4px;transition:all 0.2s;display:flex;justify-content:space-between" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+              <span style="font-family:var(--font-body);font-weight:600">Interior Detail</span>
+              <span style="color:var(--blue);font-family:var(--font-display);font-weight:700">From $80</span>
+            </div>
+            <div onclick="setService('Exterior Detail')" style="padding:1rem;border:1px solid rgba(255,255,255,0.08);cursor:pointer;margin-bottom:4px;transition:all 0.2s;display:flex;justify-content:space-between" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+              <span style="font-family:var(--font-body);font-weight:600">Exterior Detail</span>
+              <span style="color:var(--blue);font-family:var(--font-display);font-weight:700">From $80</span>
+            </div>
+            <div onclick="setService('Full Detail')" style="padding:1rem;border:1px solid rgba(0,123,255,0.4);cursor:pointer;margin-bottom:4px;background:rgba(0,123,255,0.06);transition:all 0.2s;display:flex;justify-content:space-between" onmouseover="this.style.borderColor='var(--ice)'" onmouseout="this.style.borderColor='rgba(0,123,255,0.4)'">
+              <span style="font-family:var(--font-body);font-weight:600">Full Detail</span>
+              <span style="color:var(--blue);font-family:var(--font-display);font-weight:700">From $120</span>
+            </div>
+            <div onclick="setService('Custom Request')" style="padding:1rem;border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:all 0.2s;display:flex;justify-content:space-between" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+              <span style="font-family:var(--font-body);font-weight:600">Custom Request</span>
+              <span style="color:var(--steel);font-family:var(--font-display);font-weight:700">Contact Canyon</span>
+            </div>
+          </div>
+        </div>
+        <div class="booking-form">
+          <form onsubmit="submitBooking(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="b-name">Full Name</label>
+                <input type="text" id="b-name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="b-email">Email</label>
+                <input type="email" id="b-email" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="b-phone">Phone Number</label>
+                <input type="tel" id="b-phone" placeholder="(314) 555-0000" required>
+              </div>
+              <div class="form-group">
+                <label for="b-vehicle">Vehicle (Year, Make, Model)</label>
+                <input type="text" id="b-vehicle" placeholder="2022 Ford F-150" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="b-address">Service Address</label>
+              <input type="text" id="b-address" placeholder="123 Main St, St. Charles, MO" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="b-service">Service Requested</label>
+                <select id="b-service" required>
+                  <option value="">Select a service...</option>
+                  <option value="Interior Detail">Interior Detail — From $80</option>
+                  <option value="Exterior Detail">Exterior Detail — From $80</option>
+                  <option value="Full Detail">Full Detail — From $120</option>
+                  <option value="Custom Request">Custom Request</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="b-date">Preferred Date</label>
+                <input type="date" id="b-date" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="b-time">Preferred Time</label>
+              <select id="b-time">
+                <option value="">Any time</option>
+                <option value="Morning (8am–11am)">Morning (8am–11am)</option>
+                <option value="Midday (11am–2pm)">Midday (11am–2pm)</option>
+                <option value="Afternoon (2pm–5pm)">Afternoon (2pm–5pm)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="b-notes">Notes or Special Requests</label>
+              <textarea id="b-notes" placeholder="Any details about your vehicle or special requests..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Proceed to Review &amp; Checkout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div class="page" id="page-checkout">
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Almost Done</div>
+        <h2 class="section-title">Review Your <span class="blue">Booking</span></h2>
+      </div>
+      <div class="checkout-grid">
+        <div>
+          <div class="review-card">
+            <h3>Booking Summary</h3>
+            <div class="review-row"><span class="review-label">Service</span><span class="review-val" id="co-service">Full Detail</span></div>
+            <div class="review-row"><span class="review-label">Starting Price</span><span class="review-val" id="co-price">$120</span></div>
+            <div class="review-row"><span class="review-label">Vehicle</span><span class="review-val" id="co-vehicle">—</span></div>
+            <div class="review-row"><span class="review-label">Date</span><span class="review-val" id="co-date">—</span></div>
+            <div class="review-row"><span class="review-label">Time</span><span class="review-val" id="co-time">—</span></div>
+            <div class="review-row"><span class="review-label">Name</span><span class="review-val" id="co-name">—</span></div>
+            <div class="review-row"><span class="review-label">Email</span><span class="review-val" id="co-email">—</span></div>
+            <div class="review-row"><span class="review-label">Phone</span><span class="review-val" id="co-phone">—</span></div>
+            <div class="review-row"><span class="review-label">Service Location</span><span class="review-val" id="co-address">—</span></div>
+            <div class="review-total">
+              <span class="review-total-label">Estimated Starting At</span>
+              <span class="review-total-price" id="co-total">$120</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="payment-options">
+            <h3>Payment Options</h3>
+            <label class="payment-opt selected" id="pay-online">
+              <input type="radio" name="payment" value="online" checked onchange="selectPayment(this)">
+              <div class="payment-opt-info">
+                <div class="payment-opt-title">Pay Online</div>
+                <div class="payment-opt-desc">Secure online payment at time of booking</div>
+              </div>
+            </label>
+            <label class="payment-opt" id="pay-appt">
+              <input type="radio" name="payment" value="appointment" onchange="selectPayment(this)">
+              <div class="payment-opt-info">
+                <div class="payment-opt-title">Pay at Appointment</div>
+                <div class="payment-opt-desc">Pay Canyon directly on the day of service</div>
+              </div>
+            </label>
+            <label class="payment-opt" id="pay-deposit">
+              <input type="radio" name="payment" value="deposit" onchange="selectPayment(this)">
+              <div class="payment-opt-info">
+                <div class="payment-opt-title">Deposit Option</div>
+                <div class="payment-opt-desc">Pay a deposit now, remainder at appointment</div>
+              </div>
+            </label>
+            <button class="btn-submit" onclick="confirmBooking()" style="margin-top:1.5rem">Confirm Booking</button>
+          </div>
+          <div class="confirm-msg" id="confirm-msg" style="display:none">
+            <strong style="color:var(--white);font-family:var(--font-display);font-size:1rem;letter-spacing:0.05em;display:block;margin-bottom:0.5rem">✓ Booking Received!</strong>
+            Thank you for booking with Spotless Route Detailing. Canyon will confirm your appointment and details shortly.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- BEFORE/AFTER PAGE -->
+<div class="page" id="page-before-after">
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Real Results</div>
+        <h2 class="section-title">Before <span class="blue">&amp; After</span></h2>
+      </div>
+      <p class="ba-intro">A clean vehicle speaks volumes. Check out real results from Spotless Route Detailing and see the difference a professional detail can make.</p>
+      <div class="ba-grid" id="ba-grid">
+      </div>
+      <div style="text-align:center;margin-top:3rem;padding:3rem;background:var(--charcoal);border:1px solid rgba(0,123,255,0.2)">
+        <div style="font-family:var(--font-display);font-weight:900;font-size:1.5rem;text-transform:uppercase;margin-bottom:1rem">Your Vehicle Could Be Next</div>
+        <p style="font-family:var(--font-fine);color:var(--silver);margin-bottom:1.5rem">Book your detail today and see the Spotless Route difference.</p>
+        <button class="btn-primary" onclick="showPage('booking')">Book Your Detail</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">The Person Behind The Polish</div>
+        <h2 class="section-title">Meet <span class="blue">Canyon</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-img-frame">
+            <div class="about-placeholder">SR</div>
+          </div>
+          <div class="about-accent">Owner &amp;<br>Operator<br>Canyon</div>
+        </div>
+        <div class="about-text">
+          <div class="about-name">Canyon<br><span>Spotless Route</span></div>
+          <div class="about-role">Owner &amp; Operator · St. Charles County</div>
+          <p class="about-bio">Spotless Route Detailing is owned and operated by Canyon, serving St. Charles County with reliable, professional mobile auto detailing. Canyon brings quality service directly to customers, making it easy to keep vehicles clean, protected, and looking their best.</p>
+          <p class="about-bio">Whether you need a quick refresh, a deep interior clean, or a full detail inside and out, Spotless Route Detailing is built around convenience, care, and customer satisfaction.</p>
+          <div class="about-pillars">
+            <div class="pillar"><div class="pillar-word">Professional</div></div>
+            <div class="pillar"><div class="pillar-word">Reliable</div></div>
+            <div class="pillar"><div class="pillar-word">Local</div></div>
+          </div>
+          <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+            <button class="btn-primary" onclick="showPage('booking')">Book With Canyon</button>
+            <button class="btn-outline" onclick="showPage('contact')">Get in Touch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Get in Touch</div>
+        <h2 class="section-title">Contact <span class="blue">Spotless Route</span></h2>
+      </div>
+      <p style="text-align:center;font-family:var(--font-fine);color:var(--silver);margin-bottom:3rem">Have questions, need a quote, or live outside of St. Charles County?<br>Email Canyon directly or send a message below.</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-label">Email Canyon</div>
+            <div class="contact-item-val"><a href="mailto:spotless.route.detailing@gmail.com">spotless.route.detailing@gmail.com</a></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-label">Service Type</div>
+            <div class="contact-item-val">Mobile — We Come to You</div>
+          </div>
+          <div class="service-area">
+            <h4>Service Area</h4>
+            <p>Spotless Route Detailing primarily serves <strong>St. Charles County</strong> and surrounding areas. If you're located outside of St. Charles County, please reach out to Canyon before booking to confirm availability and discuss travel options.</p>
+          </div>
+          <div style="margin-top:2rem;background:var(--charcoal);border:1px solid rgba(0,123,255,0.2);padding:1.5rem">
+            <div style="font-family:var(--font-display);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--silver);margin-bottom:1rem">Quick Links</div>
+            <button onclick="showPage('booking')" class="btn-service" style="margin-bottom:0.5rem">Book a Detail</button>
+            <button onclick="document.getElementById('services').scrollIntoView?showPage('home'):null;setTimeout(()=>document.getElementById('services')?.scrollIntoView({behavior:'smooth'}),100)" class="btn-outline" style="width:100%;margin-top:0.5rem;padding:12px;font-family:var(--font-display);font-weight:700;font-size:0.9rem;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.2);background:transparent;color:var(--white);cursor:pointer" onclick="showPage('home')">View Services</button>
+          </div>
+        </div>
+        <div>
+          <form onsubmit="submitContact(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" placeholder="(314) 555-0000">
+              </div>
+              <div class="form-group">
+                <label>Location</label>
+                <input type="text" placeholder="City, County">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Vehicle Type</label>
+              <input type="text" placeholder="2022 Ford F-150, SUV, etc.">
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea placeholder="Tell Canyon what you need..." style="min-height:140px" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Send Message</button>
+          </form>
+          <div id="contact-success" style="display:none;background:linear-gradient(135deg,rgba(0,27,61,0.8),rgba(0,123,255,0.1));border:1px solid rgba(0,123,255,0.4);padding:1.5rem;margin-top:1rem;font-family:var(--font-fine);color:var(--silver)">
+            <strong style="color:var(--white);display:block;margin-bottom:0.5rem;font-family:var(--font-display);font-size:1rem">✓ Message Sent!</strong>
+            Thanks for reaching out. Canyon will be in touch with you shortly.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-name">Spotless Route Detailing</div>
+      <div class="brand-sub">Mobile Auto Detailing</div>
+      <div class="brand-area">Serving St. Charles County and surrounding areas by request.</div>
+      <div class="brand-email"><a href="mailto:spotless.route.detailing@gmail.com">spotless.route.detailing@gmail.com</a></div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('home')">Services</a></li>
+        <li><a onclick="showPage('booking')">Book Now</a></li>
+        <li><a onclick="showPage('before-after')">Before &amp; After</a></li>
+        <li><a onclick="showPage('about')">About Canyon</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a onclick="bookService('Interior Detail','$80')">Interior Detail — From $80</a></li>
+        <li><a onclick="bookService('Exterior Detail','$80')">Exterior Detail — From $80</a></li>
+        <li><a onclick="bookService('Full Detail','$120')">Full Detail — From $120</a></li>
+        <li><a onclick="showPage('contact')">Custom Request</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-tagline">Cleaner. Shinier. <span>Better.</span> Inside and Out.</div>
+    <div class="footer-copy">© 2025 Spotless Route Detailing · St. Charles County, MO</div>
+  </div>
+</footer>
+
+<script>
+let bookingData = {};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+  document.getElementById('navLinks').classList.remove('open');
+  if (id === 'before-after') buildBAGrid();
+}
+
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+function bookService(service, price) {
+  document.getElementById('b-service').value = service;
+  showPage('booking');
+}
+
+function setService(service) {
+  document.getElementById('b-service').value = service;
+}
+
+function getPriceForService(s) {
+  if (s === 'Full Detail') return '$120';
+  if (s === 'Interior Detail' || s === 'Exterior Detail') return '$80';
+  return 'Contact Canyon';
+}
+
+function submitBooking(e) {
+  e.preventDefault();
+  bookingData = {
+    name: document.getElementById('b-name').value,
+    email: document.getElementById('b-email').value,
+    phone: document.getElementById('b-phone').value,
+    vehicle: document.getElementById('b-vehicle').value,
+    address: document.getElementById('b-address').value,
+    service: document.getElementById('b-service').value,
+    date: document.getElementById('b-date').value,
+    time: document.getElementById('b-time').value || 'Flexible',
+    notes: document.getElementById('b-notes').value
+  };
+  const price = getPriceForService(bookingData.service);
+  document.getElementById('co-service').textContent = bookingData.service;
+  document.getElementById('co-price').textContent = price;
+  document.getElementById('co-vehicle').textContent = bookingData.vehicle;
+  document.getElementById('co-date').textContent = bookingData.date || 'TBD';
+  document.getElementById('co-time').textContent = bookingData.time;
+  document.getElementById('co-name').textContent = bookingData.name;
+  document.getElementById('co-email').textContent = bookingData.email;
+  document.getElementById('co-phone').textContent = bookingData.phone;
+  document.getElementById('co-address').textContent = bookingData.address;
+  document.getElementById('co-total').textContent = price;
+  showPage('checkout');
+}
+
+function selectPayment(el) {
+  document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
+  el.closest('.payment-opt').classList.add('selected');
+}
+
+function confirmBooking() {
+  document.getElementById('confirm-msg').style.display = 'block';
+  document.querySelector('#page-checkout .btn-submit').textContent = '✓ Booking Confirmed';
+  document.querySelector('#page-checkout .btn-submit').disabled = true;
+  document.querySelector('#page-checkout .btn-submit').style.background = '#0a4a2a';
+}
+
+function submitContact(e) {
+  e.preventDefault();
+  document.getElementById('contact-success').style.display = 'block';
+  e.target.style.display = 'none';
+}
+
+const baData = [
+  {cat:'Interior Transformation',cap:'Deep-cleaned cabin, vacuumed and wiped down'},
+  {cat:'Exterior Shine',cap:'Hand wash, wax and tire shine applied'},
+  {cat:'Full Detail Results',cap:'Complete inside-and-out vehicle refresh'},
+  {cat:'Customer Vehicle',cap:'Family SUV — full detail treatment'},
+  {cat:'Interior Transformation',cap:'Dashboard and console cleaning'},
+  {cat:'Exterior Shine',cap:'Wheel cleaning and exterior trim restored'},
+  {cat:'Full Detail Results',cap:'Daily driver transformed — full service'},
+  {cat:'Customer Vehicle',cap:'Truck detail — before and after comparison'},
+];
+
+const beforeLabels = ['Dirty','Before','Dull','Grimy'];
+const afterLabels = ['Clean!','After','Shining','Fresh!'];
+
+function buildBAGrid() {
+  const grid = document.getElementById('ba-grid');
+  if (grid.children.length > 0) return;
+  baData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'ba-card';
+    const bl = beforeLabels[i % beforeLabels.length];
+    const al = afterLabels[i % afterLabels.length];
+    card.innerHTML = `
+      <div class="ba-slider" data-pos="50" id="slider-${i}">
+        <div class="ba-before">${bl}</div>
+        <div class="ba-after" id="after-${i}">${al}</div>
+        <div class="ba-divider" id="div-${i}"></div>
+      </div>
+      <div class="ba-info">
+        <div class="ba-category">${item.cat}</div>
+        <div class="ba-caption">${item.cap}</div>
+      </div>`;
+    grid.appendChild(card);
+    setupSlider(i);
+  });
+}
+
+function setupSlider(i) {
+  const slider = document.getElementById('slider-' + i);
+  let dragging = false;
+  function update(x) {
+    const rect = slider.getBoundingClientRect();
+    let pct = Math.max(5, Math.min(95, ((x - rect.left) / rect.width) * 100));
+    document.getElementById('after-' + i).style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    document.getElementById('div-' + i).style.left = pct + '%';
+  }
+  slider.addEventListener('mousedown', e => { dragging = true; update(e.clientX); });
+  window.addEventListener('mousemove', e => { if (dragging) update(e.clientX); });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  slider.addEventListener('touchstart', e => { dragging = true; update(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchmove', e => { if (dragging) update(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchend', () => { dragging = false; });
+}
+</script>
+</body>
+</html>
