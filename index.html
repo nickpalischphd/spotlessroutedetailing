@@ -398,7 +398,7 @@ footer{background:var(--navy);border-top:1px solid rgba(0,123,255,0.2);padding:3
           </div>
         </div>
         <div class="booking-form">
-          <form onsubmit="submitBooking(event)">
+          <form id="booking-form" onsubmit="submitBooking(event)">
             <div class="form-row">
               <div class="form-group">
                 <label for="b-name">Full Name</label>
@@ -717,7 +717,7 @@ function getPriceForService(s) {
   return 'Contact Canyon';
 }
 
-function submitBooking(e) {
+async function submitBooking(e) {
   e.preventDefault();
   bookingData = {
     name: document.getElementById('b-name').value,
@@ -730,6 +730,25 @@ function submitBooking(e) {
     time: document.getElementById('b-time').value || 'Flexible',
     notes: document.getElementById('b-notes').value
   };
+  // Send to Formspree
+  try {
+    await fetch('https://formspree.io/f/xzdogrrq', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({
+        _subject: 'New Booking Request — Spotless Route Detailing',
+        Name: bookingData.name,
+        Email: bookingData.email,
+        Phone: bookingData.phone,
+        Vehicle: bookingData.vehicle,
+        Address: bookingData.address,
+        Service: bookingData.service,
+        Date: bookingData.date,
+        Time: bookingData.time,
+        Notes: bookingData.notes
+      })
+    });
+  } catch(err) { console.log('Form send error', err); }
   const price = getPriceForService(bookingData.service);
   document.getElementById('co-service').textContent = bookingData.service;
   document.getElementById('co-price').textContent = price;
@@ -756,10 +775,27 @@ function confirmBooking() {
   document.querySelector('#page-checkout .btn-submit').style.background = '#0a4a2a';
 }
 
-function submitContact(e) {
+async function submitContact(e) {
   e.preventDefault();
+  const form = e.target;
+  const fields = form.querySelectorAll('input, textarea');
+  try {
+    await fetch('https://formspree.io/f/xzdogrrq', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({
+        _subject: 'New Contact Message — Spotless Route Detailing',
+        Name: fields[0].value,
+        Email: fields[1].value,
+        Phone: fields[2].value,
+        Location: fields[3].value,
+        Vehicle: fields[4].value,
+        Message: fields[5].value
+      })
+    });
+  } catch(err) { console.log('Form send error', err); }
   document.getElementById('contact-success').style.display = 'block';
-  e.target.style.display = 'none';
+  form.style.display = 'none';
 }
 
 const baData = [
